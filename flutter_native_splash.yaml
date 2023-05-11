@@ -1,0 +1,4 @@
+flutter_native_splash:
+  image: assets/images/coffee_icon.png
+  color: "#58390c"
+  android_disable_fullscreen: true
