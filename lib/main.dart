@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:kopilab/detail_screen.dart';
-import 'package:kopilab/home_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:kopilab/pages/home_screen.dart';
+import 'package:kopilab/pages/detail_screen.dart';
+import 'package:kopilab/pages/admin/login_page.dart';
+import 'package:kopilab/pages/admin/order_page.dart';
+import 'package:kopilab/pages/admin/done_page.dart';
+
+import 'firebase_options.dart';
 
 import 'models/menu.dart';
 
-void main() {
+Future<void> main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -15,16 +24,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Coffee Time',
+      title: 'kopilab',
       theme: ThemeData(
         primarySwatch: Colors.brown,
+        fontFamily: "Lato",
       ),
-      initialRoute: HomeScreen.routeName,
+      initialRoute: OrderPage.routeName,
       routes: {
         HomeScreen.routeName: (context) => const HomeScreen(),
         DetailScreen.routeName: (context) => DetailScreen(
-          menu: ModalRoute.of(context)?.settings.arguments as Menu
-        ),
+            menu: ModalRoute.of(context)?.settings.arguments as Menu),
+        // ADMIN ROUTES
+        LoginPage.routeName: (context) => const LoginPage(),
+        OrderPage.routeName: (context) => const OrderPage(),
+        DonePage.routeName: (context) => const DonePage(),
       },
       // home: new Splash(),
     );
