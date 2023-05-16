@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "424164250930",
+    "firebase_url": "https://kopilab-d2813-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "kopilab-d2813",
+    "storage_bucket": "kopilab-d2813.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424164250930:android:1337c4d8659b7a0cfd732b",
+        "android_client_info": {
+          "package_name": "com.example.kopilab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "424164250930-gkq9rrd7hs50eufcipjki5ri70jm8vih.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBg9mguJskw2aMJEdkx6yp_qARAGUBGj9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "424164250930-gkq9rrd7hs50eufcipjki5ri70jm8vih.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "424164250930-t9hjt9genkfgs1v9nd8gct8i098hs0o2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.kopilab"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
