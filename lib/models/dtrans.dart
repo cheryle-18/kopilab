@@ -1,18 +1,20 @@
 class Dtrans {
-  String orderId;
-  String menuId;
-  int qty;
+  int orderId;
+  int menuId;
   int price;
+  int qty;
   int subtotal;
+  String status;
   DateTime createdAt;
   DateTime updatedAt;
 
   Dtrans({
     required this.orderId,
     required this.menuId,
-    required this.qty,
     required this.price,
+    required this.qty,
     required this.subtotal,
+    required this.status,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -20,9 +22,10 @@ class Dtrans {
   factory Dtrans.fromJson(Map<String, dynamic> json) => Dtrans(
         orderId: json["orderId"],
         menuId: json["menuId"],
-        qty: json["qty"],
         price: json["price"],
+        qty: json["qty"],
         subtotal: json["subtotal"],
+        status: json["status"],
         createdAt: json["createdAt"],
         updatedAt: json["updatedAt"],
       );

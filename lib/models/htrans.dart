@@ -1,5 +1,6 @@
 class Htrans {
-  String orderId;
+  int orderId;
+  int totalItem;
   int totalPrice;
   String status;
   DateTime createdAt;
@@ -7,6 +8,7 @@ class Htrans {
 
   Htrans({
     required this.orderId,
+    required this.totalItem,
     required this.totalPrice,
     required this.status,
     required this.createdAt,
@@ -15,6 +17,7 @@ class Htrans {
 
   factory Htrans.fromJson(Map<String, dynamic> json) => Htrans(
         orderId: json["orderId"],
+        totalItem: json["totalItem"],
         totalPrice: json["totalPrice"],
         status: json["status"],
         createdAt: json["createdAt"],

@@ -1,0 +1,26 @@
+[
+  {
+    "orderId": 1,
+    "totalItem": 1,
+    "totalPrice": 20000,
+    "status": "Done",
+    "createdAt": "",
+    "updatedAt": ""
+  },
+  {
+    "orderId": 2,
+    "totalItem": 2,
+    "totalPrice": 50000,
+    "status": "Pending",
+    "createdAt": "",
+    "updatedAt": ""
+  },
+  {
+    "orderId": 3,
+    "totalItem": 2,
+    "totalPrice": 60000,
+    "status": "Pending",
+    "createdAt": "",
+    "updatedAt": ""
+  }
+]

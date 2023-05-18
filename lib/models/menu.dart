@@ -1,5 +1,5 @@
 class Menu {
-  String menuId;
+  int menuId;
   String name;
   String description;
   int price;
@@ -30,7 +30,7 @@ class Menu {
 
 var menuList = [
   Menu(
-      menuId: "CF001",
+      menuId: 1,
       name: 'Americano',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget rhoncus ultricies, nunc elit ultricies nunc, vitae luctus nisl nunc eu nunc.',
@@ -40,7 +40,7 @@ var menuList = [
       imageUrl2:
           'https://d.wattpad.com/story_parts/669648024/images/15728562a963d376784608930121.jpg'),
   Menu(
-      menuId: "CF002",
+      menuId: 2,
       name: 'Caramel Macchiato',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget rhoncus ultricies, nunc elit ultricies nunc, vitae luctus nisl nunc eu nunc.',
@@ -50,7 +50,7 @@ var menuList = [
       imageUrl2:
           'https://www.wickedspatula.com/wp-content/uploads/2015/04/wickedspatula-paleo-iced-caramel-macchiato-1.jpg'),
   Menu(
-      menuId: "CF003",
+      menuId: 3,
       name: 'Cappuccino',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget rhoncus ultricies, nunc elit ultricies nunc, vitae luctus nisl nunc eu nunc.',
@@ -60,7 +60,7 @@ var menuList = [
       imageUrl2:
           'https://coffeeaffection.com/wp-content/uploads/2021/02/does-a-cappuccino-have-caffeine.jpg'),
   Menu(
-      menuId: "CF004",
+      menuId: 4,
       name: 'Dolce Latte',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget rhoncus ultricies, nunc elit ultricies nunc, vitae luctus nisl nunc eu nunc.',
@@ -70,7 +70,7 @@ var menuList = [
       imageUrl2:
           'https://thegirlonbloor.com/wp-content/uploads/2018/08/Homemade-Cinnamon-Dolce-Latte-23.jpg'),
   Menu(
-      menuId: "NCF001",
+      menuId: 5,
       name: 'Classic Chocolate',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget rhoncus ultricies, nunc elit ultricies nunc, vitae luctus nisl nunc eu nunc.',
@@ -80,7 +80,7 @@ var menuList = [
       imageUrl2:
           'https://kindlysweet.com/wp-content/uploads/2016/11/Iced-Chocolate.jpg'),
   Menu(
-      menuId: "NCF002",
+      menuId: 6,
       name: 'Strawberry Frappe',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget rhoncus ultricies, nunc elit ultricies nunc, vitae luctus nisl nunc eu nunc.',
@@ -90,7 +90,7 @@ var menuList = [
       imageUrl2:
           'https://milkandpop.com/wp-content/uploads/2021/01/strawberry-frappuccino-6-1024x683.jpg'),
   Menu(
-      menuId: "NCF003",
+      menuId: 7,
       name: 'Caramel Frappe',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget rhoncus ultricies, nunc elit ultricies nunc, vitae luctus nisl nunc eu nunc.',
@@ -100,7 +100,7 @@ var menuList = [
       imageUrl2:
           'https://www.smalltownwoman.com/wp-content/uploads/2019/12/Caramel-Frappuccino-Facebook-Final-Recipe-Card.jpg'),
   Menu(
-      menuId: "NCF004",
+      menuId: 8,
       name: 'Matcha Frappe',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget rhoncus ultricies, nunc elit ultricies nunc, vitae luctus nisl nunc eu nunc.',
@@ -110,7 +110,7 @@ var menuList = [
       imageUrl2:
           'https://www.modernfarmhouseeats.com/wp-content/uploads/2022/02/starbucks-iced-matcha-latte-1.jpg'),
   Menu(
-      menuId: "FD001",
+      menuId: 9,
       name: 'Walnut Brownie',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget rhoncus ultricies, nunc elit ultricies nunc, vitae luctus nisl nunc eu nunc.',
@@ -120,7 +120,7 @@ var menuList = [
       imageUrl2:
           'https://5.imimg.com/data5/SELLER/Default/2020/12/NC/CB/SG/37207488/brownies-nr-18-57bb90b45f9b58cdfd70b045-500x500.jpg'),
   Menu(
-      menuId: "FD002",
+      menuId: 10,
       name: 'Cinnamon Roll',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget rhoncus ultricies, nunc elit ultricies nunc, vitae luctus nisl nunc eu nunc.',
@@ -130,7 +130,7 @@ var menuList = [
       imageUrl2:
           'https://www.allrecipes.com/thmb/VxNNFRBxh5G9osvtKw9J6T5PKsw=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/9175447-d4cafe297e4746bfbe97e485ee057a0e.jpg'),
   Menu(
-      menuId: "FD003",
+      menuId: 11,
       name: 'Butter Croissant',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget rhoncus ultricies, nunc elit ultricies nunc, vitae luctus nisl nunc eu nunc.',
@@ -140,7 +140,7 @@ var menuList = [
       imageUrl2:
           'https://breadsandsweets.com/wp-content/uploads/2021/08/croissant-pic-4.jpg'),
   Menu(
-      menuId: "FD004",
+      menuId: 12,
       name: 'Chocochip Cookie',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget rhoncus ultricies, nunc elit ultricies nunc, vitae luctus nisl nunc eu nunc.',
