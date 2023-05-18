@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:kopilab/pages/home_screen.dart';
-import 'package:kopilab/pages/detail_screen.dart';
-import 'package:kopilab/pages/admin/login_page.dart';
-import 'package:kopilab/pages/admin/order_page.dart';
-import 'package:kopilab/pages/admin/done_page.dart';
+import 'package:kopilab/ui/cart_screen.dart';
+import 'package:kopilab/ui/welcome_screen.dart';
+import 'package:kopilab/ui/home_screen.dart';
+import 'package:kopilab/ui/detail_screen.dart';
+import 'package:kopilab/ui/admin/login_screen.dart';
+import 'package:kopilab/ui/admin/admin_screen.dart';
+import 'package:kopilab/ui/admin/order_screen.dart';
+import 'package:kopilab/ui/admin/done_screen.dart';
+import 'package:kopilab/ui/admin/order_detail_screen.dart';
 
 import 'firebase_options.dart';
 
 import 'models/menu.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -20,7 +25,6 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,15 +33,20 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.brown,
         fontFamily: "Lato",
       ),
-      initialRoute: OrderPage.routeName,
+      initialRoute: AdminScreen.routeName,
       routes: {
+        // USER ROUTES
+        WelcomeScreen.routeName: (context) => const WelcomeScreen(),
         HomeScreen.routeName: (context) => const HomeScreen(),
         DetailScreen.routeName: (context) => DetailScreen(
             menu: ModalRoute.of(context)?.settings.arguments as Menu),
+        CartScreen.routeName: (context) => const CartScreen(),
         // ADMIN ROUTES
-        LoginPage.routeName: (context) => const LoginPage(),
-        OrderPage.routeName: (context) => const OrderPage(),
-        DonePage.routeName: (context) => const DonePage(),
+        LoginScreen.routeName: (context) => const LoginScreen(),
+        AdminScreen.routeName: (context) => const AdminScreen(),
+        OrderScreen.routeName: (context) => const OrderScreen(),
+        DoneScreen.routeName: (context) => const DoneScreen(),
+        OrderDetailScreen.routeName: (context) => const OrderDetailScreen(),
       },
       // home: new Splash(),
     );

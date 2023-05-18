@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:kopilab/pages/admin/admin_page.dart';
-import 'package:kopilab/pages/admin/order_page.dart';
+import 'package:kopilab/ui/admin/admin_screen.dart';
+import 'package:kopilab/ui/admin/order_screen.dart';
 
-class LoginPage extends StatefulWidget {
-  static const routeName = "/admin";
+class LoginScreen extends StatefulWidget {
+  static const routeName = "/login";
 
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
   bool _isError = false;
   bool _obscureText = true;
@@ -88,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                     if (_usernameController.text == "admin" &&
                         _passwordController.text == "admin") {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const AdminPage(),
+                        builder: (context) => const AdminScreen(),
                       ));
                       return;
                     }

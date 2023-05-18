@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kopilab/pages/detail_screen.dart';
+import 'package:kopilab/ui/detail_screen.dart';
 import 'models/menu.dart';
 
 class MenuCard extends StatelessWidget {

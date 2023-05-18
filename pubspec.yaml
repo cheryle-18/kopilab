@@ -13,6 +13,7 @@ dependencies:
   firebase_core: ^2.12.0
   firebase_database: ^10.2.0
   flutter_native_splash: ^2.2.19
+  flutterfire_ui: ^0.4.3+20
   provider: ^6.0.5
 
 dev_dependencies:
