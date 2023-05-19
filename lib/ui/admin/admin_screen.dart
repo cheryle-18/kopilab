@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
-import 'package:kopilab/ui/admin/done_screen.dart';
-import 'package:kopilab/ui/admin/order_screen.dart';
+import 'package:go_router/go_router.dart';
+
+import 'done_screen.dart';
+import 'order_screen.dart';
 
 class AdminScreen extends StatefulWidget {
-  static const routeName = "/admin";
-
   const AdminScreen({Key? key}) : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class _AdminScreenState extends State<AdminScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(color: Colors.white),
+        leading: BackButton(onPressed: () => context.goNamed("login")),
         title: const Text("kopilab."),
         centerTitle: true,
       ),
@@ -35,6 +35,7 @@ class _AdminScreenState extends State<AdminScreen> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.brown,
         selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         items: <BottomNavigationBarItem>[
@@ -44,8 +45,10 @@ class _AdminScreenState extends State<AdminScreen> {
                 "3",
                 style: TextStyle(color: Colors.brown),
               ),
+              badgeAnimation:
+                  const badges.BadgeAnimation.fade(toAnimate: false),
               badgeStyle: badges.BadgeStyle(
-                badgeColor: _selectedIndex == 0 ? Colors.white : Colors.black,
+                badgeColor: _selectedIndex == 0 ? Colors.white : Colors.grey,
               ),
               child: const Icon(Icons.assignment_outlined),
             ),

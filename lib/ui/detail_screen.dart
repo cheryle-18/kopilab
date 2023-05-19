@@ -4,7 +4,9 @@ import '../models/menu.dart';
 class DetailScreen extends StatefulWidget {
   static const routeName = '/detail';
   final Menu menu;
-  const DetailScreen({Key? key, required this.menu}) : super(key: key);
+  final String id;
+
+  const DetailScreen({Key? key, required this.menu, required this.id}) : super(key: key);
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();

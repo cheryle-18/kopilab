@@ -11,7 +11,7 @@ class MenuCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context){
-          return DetailScreen(menu: menu);
+          return DetailScreen(menu: menu, id: "1");
         }));
       },
       child: Container(
