@@ -1,74 +1,60 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
-import 'package:kopilab/menu_list.dart';
 
-class HomeScreen extends StatelessWidget {
-  static const routeName = '/';
+import '../widgets/menu_list.dart';
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _currentCoffee = 0;
+  int _currentNonCoffee = 0;
+  int _currentFood = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text('kopilab.')
-      ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        color: Colors.brown,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(32.0),
-              width: MediaQuery.of(context).size.width,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFF58390c),
-                    Colors.brown,
-                  ],
-                )
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    "It's Coffee Time!",
-                    style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                    ),
-                    textAlign: TextAlign.left
-                  ),
-                  SizedBox(
-                      height: 15
-                  ),
-                  Text(
-                    "Spend your break with a refreshing beverage from our delightful selection",
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
-                  color: Color(0xFFFAFAFA),
+        title: const Text('kopilab.'),
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 48),
+            child: IconButton(
+              icon: const badges.Badge(
+                badgeContent: Text(
+                  "0",
+                  style: TextStyle(color: Colors.brown),
                 ),
-                child: const MenuList()
-              )
+                badgeAnimation: badges.BadgeAnimation.fade(toAnimate: false),
+                badgeStyle: badges.BadgeStyle(
+                  badgeColor: Colors.white,
+                ),
+                child: Icon(Icons.shopping_cart),
+              ),
+              onPressed: () {},
             ),
-          ]
-        )
-      )
+          )
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          children: [
+            const Text("Search"),
+            const Text("COFFEE"),
+            MenuList(query: 'Coffee', current: _currentCoffee),
+            const Text("NON - COFFEE"),
+            MenuList(query: 'Non-Coffee', current: _currentNonCoffee),
+            const Text("FOOD"),
+            MenuList(query: 'Food', current: _currentFood),
+          ],
+        ),
+      ),
     );
   }
 }
