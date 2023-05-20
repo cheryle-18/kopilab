@@ -42,7 +42,7 @@ class _AdminScreenState extends State<AdminScreen> {
           BottomNavigationBarItem(
             icon: badges.Badge(
               badgeContent: const Text(
-                "3",
+                "0",
                 style: TextStyle(color: Colors.brown),
               ),
               badgeAnimation:
