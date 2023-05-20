@@ -4,9 +4,9 @@ import 'package:flutterfire_ui/database.dart';
 import 'package:go_router/go_router.dart';
 
 class OrderList extends StatelessWidget {
-  String query;
+  final String query;
 
-  OrderList({Key? key, required this.query}) : super(key: key);
+  const OrderList({Key? key, required this.query}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
