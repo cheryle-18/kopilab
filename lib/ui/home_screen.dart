@@ -1,19 +1,41 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../widgets/menu_list.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int _currentCoffee = 0;
-  int _currentNonCoffee = 0;
-  int _currentFood = 0;
+  final item = const <Widget>[
+    Text(
+      "COFFEE",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 40,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    MenuList(query: 'Coffee'),
+    Text(
+      "NON - COFFEE",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 40,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    MenuList(query: 'Non-Coffee'),
+    Text(
+      "FOOD",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 40,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    MenuList(query: 'Food'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -36,24 +58,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: Icon(Icons.shopping_cart),
               ),
-              onPressed: () {},
+              onPressed: () {
+                context.pushNamed("cart");
+              },
             ),
           )
         ],
       ),
-      body: Padding(
+      body: ListView.separated(
         padding: const EdgeInsets.all(24),
-        child: Column(
-          children: [
-            const Text("Search"),
-            const Text("COFFEE"),
-            MenuList(query: 'Coffee', current: _currentCoffee),
-            const Text("NON - COFFEE"),
-            MenuList(query: 'Non-Coffee', current: _currentNonCoffee),
-            const Text("FOOD"),
-            MenuList(query: 'Food', current: _currentFood),
-          ],
-        ),
+        itemCount: item.length,
+        itemBuilder: (BuildContext context, int index) {
+          return item[index];
+        },
+        separatorBuilder: (context, index) {
+          return const Divider();
+        },
       ),
     );
   }
