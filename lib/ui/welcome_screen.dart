@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'admin/login_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  static const routeName = '/welcome';
-
   const WelcomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -67,7 +64,7 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  context.goNamed("home");
+                  context.pushNamed("home");
                 },
               ),
               const SizedBox(height: 160),

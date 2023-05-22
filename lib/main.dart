@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'firebase_options.dart';
 
-import 'models/menu.dart';
 import 'ui/welcome_screen.dart';
 import 'ui/home_screen.dart';
 import 'ui/detail_screen.dart';
@@ -15,9 +14,10 @@ import 'ui/admin/order_detail_screen.dart';
 
 final GoRouter _router = GoRouter(
   initialLocation: "/welcome",
-  // debugLogDiagnostics: true,
+  debugLogDiagnostics: true,
   errorBuilder: (context, state) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) => _router.goNamed('home'));
+    WidgetsBinding.instance
+        .addPostFrameCallback((timeStamp) => _router.goNamed('welcome'));
     return const SizedBox.shrink();
   },
   routes: [
@@ -35,15 +35,7 @@ final GoRouter _router = GoRouter(
       name: "detail",
       path: "/detail/:id",
       builder: (context, state) => DetailScreen(
-        menu: Menu(
-            menuId: 1,
-            name: '',
-            description: '',
-            price: 0,
-            category: '',
-            imageUrl: '',
-            imageUrl2: ''),
-        id: state.pathParameters['id']!,
+        id: int.parse(state.pathParameters['id']!),
       ),
     ),
     GoRoute(

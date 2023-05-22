@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
-import 'package:go_router/go_router.dart';
 
 import 'done_screen.dart';
 import 'order_screen.dart';
@@ -27,7 +26,6 @@ class _AdminScreenState extends State<AdminScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(onPressed: () => context.goNamed("login")),
         title: const Text("kopilab."),
         centerTitle: true,
       ),

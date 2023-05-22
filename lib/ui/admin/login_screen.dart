@@ -26,9 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                BackButton(
-                    onPressed: () => context.goNamed("welcome"),
-                    color: Colors.white),
+                BackButton(onPressed: () => context.pop(), color: Colors.white),
               ],
             ),
           ),
@@ -109,13 +107,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () async {
                         setState(() {
                           _isLoading = true;
+                          bool valid = false;
                           if (_usernameController.text == "admin" &&
                               _passwordController.text == "admin") {
-                            context.goNamed("admin");
-                            return;
+                            context.pushNamed("admin");
+                            valid = true;
                           }
                           _isLoading = false;
-                          _isError = true;
+                          _isError = !valid;
                         });
                       },
                       child: _isLoading
