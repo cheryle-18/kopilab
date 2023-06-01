@@ -1,12 +1,12 @@
 class Dtrans {
-  int orderId;
-  int menuId;
-  int price;
-  int qty;
-  int subtotal;
-  String status;
-  DateTime createdAt;
-  DateTime updatedAt;
+  late int orderId;
+  late int menuId;
+  late int price;
+  late int qty;
+  late int subtotal;
+  late String status;
+  late String createdAt;
+  late String updatedAt;
 
   Dtrans({
     required this.orderId,
@@ -18,6 +18,30 @@ class Dtrans {
     required this.createdAt,
     required this.updatedAt,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      "orderId": orderId,
+      "menuId": menuId,
+      "price": price,
+      "qty": qty,
+      "subtotal": subtotal,
+      "status": status,
+      "createdAt": createdAt,
+      "updatedAt": updatedAt,
+    };
+  }
+
+  Dtrans.fromMap(Map<String, dynamic> map) {
+    orderId = map['orderId'];
+    menuId = map['menuId'];
+    price = map['price'];
+    qty = map['qty'];
+    subtotal = map['subtotal'];
+    status = map['status'];
+    createdAt = map['createdAt'];
+    updatedAt = map['updatedAt'];
+  }
 
   factory Dtrans.fromJson(Map<String, dynamic> json) => Dtrans(
         orderId: json["orderId"],

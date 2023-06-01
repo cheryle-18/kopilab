@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'firebase_options.dart';
 
+import 'providers/dtrans.dart';
+import 'providers/htrans.dart';
 import 'ui/welcome_screen.dart';
 import 'ui/home_screen.dart';
 import 'ui/detail_screen.dart';
@@ -65,7 +68,7 @@ final GoRouter _router = GoRouter(
   ],
 );
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -79,13 +82,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'kopilab',
-      theme: ThemeData(
-        primarySwatch: Colors.brown,
-        fontFamily: "Lato",
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => HtransProvider()),
+        ChangeNotifierProvider(create: (context) => DtransProvider()),
+      ],
+      child: MaterialApp.router(
+        title: 'kopilab',
+        theme: ThemeData(
+          primarySwatch: Colors.brown,
+          fontFamily: "Lato",
+        ),
+        routerConfig: _router,
       ),
-      routerConfig: _router,
     );
   }
 }

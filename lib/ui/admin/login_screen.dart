@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,6 +10,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _auth = FirebaseAuth.instance;
   bool _isLoading = false;
   bool _isError = false;
   bool _obscureText = true;
@@ -105,17 +107,32 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       onPressed: () async {
+                        bool valid = true;
                         setState(() {
                           _isLoading = true;
-                          bool valid = false;
-                          if (_usernameController.text == "admin" &&
-                              _passwordController.text == "admin") {
-                            context.pushNamed("admin");
-                            valid = true;
-                          }
-                          _isLoading = false;
                           _isError = !valid;
                         });
+
+                        try {
+                          final username = _usernameController.text;
+                          final password = _passwordController.text;
+                          await _auth.signInWithEmailAndPassword(
+                            email: username,
+                            password: password,
+                          );
+
+                          if (context.mounted) {
+                            context.pushNamed("admin");
+                          }
+                        } on Exception catch (e) {
+                          print(e);
+                          valid = false;
+                        } finally {
+                          setState(() {
+                            _isLoading = false;
+                            _isError = !valid;
+                          });
+                        }
                       },
                       child: _isLoading
                           ? const CircularProgressIndicator()

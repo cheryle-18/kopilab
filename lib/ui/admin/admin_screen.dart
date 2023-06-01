@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 
@@ -13,8 +14,17 @@ class AdminScreen extends StatefulWidget {
 
 class _AdminScreenState extends State<AdminScreen> {
   int _selectedIndex = 0;
-
+  int _pending = 0;
   final List<Widget> _pages = [const OrderScreen(), const DoneScreen()];
+
+  void getPending() {
+    FirebaseFirestore.instance
+        .collection('htrans')
+        .where('status', isEqualTo: 'Pending')
+        .count()
+        .get()
+        .then((value) => _pending = value.count);
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -24,6 +34,8 @@ class _AdminScreenState extends State<AdminScreen> {
 
   @override
   Widget build(BuildContext context) {
+    getPending();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("kopilab."),
@@ -39,9 +51,9 @@ class _AdminScreenState extends State<AdminScreen> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: badges.Badge(
-              badgeContent: const Text(
-                "0",
-                style: TextStyle(color: Colors.brown),
+              badgeContent: Text(
+                _pending.toString(),
+                style: const TextStyle(color: Colors.brown),
               ),
               badgeAnimation:
                   const badges.BadgeAnimation.fade(toAnimate: false),

@@ -1,6 +1,5 @@
-import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterfire_ui/database.dart';
 import 'package:go_router/go_router.dart';
 
 class OrderList extends StatelessWidget {
@@ -10,31 +9,27 @@ class OrderList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final htransQuery = FirebaseDatabase.instance
-        .ref("htrans")
-        .orderByChild("status")
-        .equalTo(query);
+    final htransQuery = FirebaseFirestore.instance
+        .collection('htrans')
+        .where('status', isEqualTo: query)
+        .orderBy('orderId')
+        .snapshots();
 
     return Scaffold(
-      body: FirebaseDatabaseQueryBuilder(
-        query: htransQuery,
-        builder: (context, snapshot, child) {
-          if (snapshot.isFetching) {
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: htransQuery,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (snapshot.hasError) {
-            return Text('Something went wrong! ${snapshot.error}');
-          }
-
           return ListView.separated(
-            itemCount: snapshot.docs.length,
-            itemBuilder: (context, index) {
-              final htrans = snapshot.docs[index].value as Map<String, dynamic>;
-              return buildItem(context, htrans);
-            },
+            itemCount: snapshot.data!.docs.length,
             separatorBuilder: (context, index) {
               return const Divider();
+            },
+            itemBuilder: (context, index) {
+              return buildItem(context, snapshot.data!.docs[index].data());
             },
           );
         },

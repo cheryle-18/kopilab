@@ -1,7 +1,7 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_ui_database/firebase_ui_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterfire_ui/database.dart';
 import 'package:go_router/go_router.dart';
 
 import '../models/menu.dart';
