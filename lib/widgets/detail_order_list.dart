@@ -98,6 +98,7 @@ class DetailOrderList extends StatelessWidget {
     } else {
       dtrans['status'] = 'Pending';
     }
+    dtrans['updatedAt'] = Timestamp.now();
     FirebaseFirestore.instance.collection('dtrans').doc(docId).update(dtrans);
   }
 }

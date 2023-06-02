@@ -73,18 +73,21 @@ class OrderDetailScreen extends StatelessWidget {
               onPressed: () {
                 FirebaseFirestore.instance
                     .collection('dtrans')
-                    .where('orderId', isEqualTo: id)
+                    .where('orderId', isEqualTo: int.parse(id))
+                    .where('status', isEqualTo: 'Pending')
                     .count()
                     .get()
                     .then((value) {
                   if (value.count == 0) {
                     htrans['status'] = 'Done';
+                    htrans['updatedAt'] = Timestamp.now();
                     FirebaseFirestore.instance
                         .collection('htrans')
                         .doc(docId)
                         .update(htrans);
                   }
                 });
+
                 context.pop();
               },
               child: const Text(
