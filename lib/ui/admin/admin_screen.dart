@@ -14,17 +14,7 @@ class AdminScreen extends StatefulWidget {
 
 class _AdminScreenState extends State<AdminScreen> {
   int _selectedIndex = 0;
-  int _pending = 0;
   final List<Widget> _pages = [const OrderScreen(), const DoneScreen()];
-
-  void getPending() {
-    FirebaseFirestore.instance
-        .collection('htrans')
-        .where('status', isEqualTo: 'Pending')
-        .count()
-        .get()
-        .then((value) => _pending = value.count);
-  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -34,7 +24,11 @@ class _AdminScreenState extends State<AdminScreen> {
 
   @override
   Widget build(BuildContext context) {
-    getPending();
+    final htransQuery = FirebaseFirestore.instance
+        .collection('htrans')
+        .where('status', isEqualTo: 'Pending')
+        .orderBy('orderId')
+        .snapshots();
 
     return Scaffold(
       appBar: AppBar(
@@ -42,34 +36,47 @@ class _AdminScreenState extends State<AdminScreen> {
         centerTitle: true,
       ),
       body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.brown,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.grey,
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: badges.Badge(
-              badgeContent: Text(
-                _pending.toString(),
-                style: const TextStyle(color: Colors.brown),
-              ),
-              badgeAnimation:
-                  const badges.BadgeAnimation.fade(toAnimate: false),
-              badgeStyle: badges.BadgeStyle(
-                badgeColor: _selectedIndex == 0 ? Colors.white : Colors.grey,
-              ),
-              child: const Icon(Icons.assignment_outlined),
-            ),
-            label: "Order",
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.done),
-            label: "Done",
-          )
-        ],
+      bottomNavigationBar: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: htransQuery,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          final pending = snapshot.data!.docs.length;
+          return bottomNavigationBar(pending);
+        },
       ),
+    );
+  }
+
+  Widget bottomNavigationBar(int pending) {
+    return BottomNavigationBar(
+      backgroundColor: Colors.brown,
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.grey,
+      currentIndex: _selectedIndex,
+      onTap: _onItemTapped,
+      items: [
+        BottomNavigationBarItem(
+          icon: badges.Badge(
+            badgeContent: Text(
+              pending.toString(),
+              style: const TextStyle(color: Colors.brown),
+            ),
+            badgeAnimation: const badges.BadgeAnimation.fade(toAnimate: false),
+            badgeStyle: badges.BadgeStyle(
+              badgeColor: _selectedIndex == 0 ? Colors.white : Colors.grey,
+            ),
+            child: const Icon(Icons.assignment_outlined),
+          ),
+          label: "Order",
+        ),
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.done),
+          label: "Done",
+        )
+      ],
     );
   }
 }
