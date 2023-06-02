@@ -1,6 +1,5 @@
 import 'package:badges/badges.dart' as badges;
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_ui_database/firebase_ui_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,10 +17,10 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
-    final menuQuery = FirebaseDatabase.instance
-        .ref("menu")
-        .orderByChild("menuId")
-        .equalTo(widget.id);
+    final menuQuery = FirebaseFirestore.instance
+        .collection('menu')
+        .where('menuId', isEqualTo: widget.id)
+        .snapshots();
 
     return Scaffold(
       appBar: AppBar(
@@ -51,19 +50,14 @@ class _DetailScreenState extends State<DetailScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),
-        child: FirebaseDatabaseQueryBuilder(
-          query: menuQuery,
-          builder: (context, snapshot, child) {
-            if (snapshot.isFetching) {
+        child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          stream: menuQuery,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
             }
 
-            if (snapshot.hasError) {
-              return Text('Something went wrong! ${snapshot.error}');
-            }
-
-            Menu menu =
-                Menu.fromJson(snapshot.docs[0].value as Map<String, dynamic>);
+            Menu menu = Menu.fromJson(snapshot.data!.docs[0].data());
 
             var images = <Widget>[
               Image.asset(menu.imageUrl),

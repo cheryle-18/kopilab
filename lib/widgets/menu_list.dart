@@ -1,5 +1,4 @@
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_ui_database/firebase_ui_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,25 +9,21 @@ class MenuList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final menuQuery = FirebaseDatabase.instance
-        .ref("menu")
-        .orderByChild("category")
-        .equalTo(query);
+    final menuQuery = FirebaseFirestore.instance
+        .collection('menu')
+        .where('category', isEqualTo: query)
+        .snapshots();
 
-    return FirebaseDatabaseQueryBuilder(
-      query: menuQuery,
-      builder: (context, snapshot, child) {
-        if (snapshot.isFetching) {
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      stream: menuQuery,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (snapshot.hasError) {
-          return Text('Something went wrong! ${snapshot.error}');
-        }
-
         return GridView.builder(
+          itemCount: snapshot.data!.docs.length,
           shrinkWrap: true,
-          itemCount: snapshot.docs.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: 8,
@@ -36,7 +31,7 @@ class MenuList extends StatelessWidget {
             mainAxisExtent: 240,
           ),
           itemBuilder: (context, index) {
-            final menu = snapshot.docs[index].value as Map<String, dynamic>;
+            final menu = snapshot.data!.docs[index].data();
             return buildItem(context, menu);
           },
         );
