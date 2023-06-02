@@ -56,7 +56,7 @@ class MenuList extends StatelessWidget {
       onTap: () {
         context.pushNamed(
           "detail",
-          pathParameters: {"id": menu["menuId"]},
+          pathParameters: {"id": menu["menuId"].toString()},
         );
       },
     );

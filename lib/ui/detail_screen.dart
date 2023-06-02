@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../models/menu.dart';
+import '../utils/currency.dart';
 
 class DetailScreen extends StatefulWidget {
   final int id;
@@ -15,6 +16,8 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  int qty = 1;
+
   @override
   Widget build(BuildContext context) {
     final menuQuery = FirebaseFirestore.instance
@@ -48,52 +51,120 @@ class _DetailScreenState extends State<DetailScreen> {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          stream: menuQuery,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(child: CircularProgressIndicator());
-            }
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: menuQuery,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-            Menu menu = Menu.fromJson(snapshot.data!.docs[0].data());
+          Menu menu = Menu.fromMap(snapshot.data!.docs[0].data());
 
-            var images = <Widget>[
-              Image.asset(menu.imageUrl),
-              Image.network(menu.imageUrl2),
-            ];
-
-            return ListView(
-              padding: const EdgeInsets.all(24),
+          return Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
               children: [
-                images[0],
-                images[1],
-                Text(menu.name),
-                Text('Rp ${menu.price}'),
-                Text(menu.description),
-                Row(
-                  children: [
-                    Text('Item Quantity'),
-                    ElevatedButton(
-                      child: Text('-'),
-                      onPressed: () {},
-                    ),
-                    Text('1'),
-                    ElevatedButton(
-                      child: Text('+'),
-                      onPressed: () {},
-                    ),
-                  ],
+                Image.asset(menu.imageUrl, height: 280),
+                const SizedBox(height: 60),
+                Text(
+                  menu.name,
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                ElevatedButton(
-                  child: Text('Add to cart - ${menu.price}'),
-                  onPressed: () {},
-                )
+                const SizedBox(height: 4),
+                Text(
+                  'Rp ${Currency(menu.price)}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  menu.description,
+                  textAlign: TextAlign.center,
+                ),
               ],
-            );
-          },
-        ),
+            ),
+          );
+        },
+      ),
+      bottomNavigationBar: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: menuQuery,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          Menu menu = Menu.fromMap(snapshot.data!.docs[0].data());
+          return navbar(context, menu);
+        },
+      ),
+    );
+  }
+
+  Widget navbar(BuildContext context, Menu menu) {
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Divider(),
+          Row(
+            children: [
+              const Text(
+                "Item Quantity :",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const Spacer(),
+              SizedBox(
+                width: 36,
+                child: ElevatedButton(
+                  child: const Text('-'),
+                  onPressed: () {
+                    setState(() {
+                      if (qty > 1) {
+                        qty--;
+                      }
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(width: 40),
+              Text(
+                qty.toString(),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(width: 40),
+              SizedBox(
+                width: 36,
+                child: ElevatedButton(
+                  child: const Text('+'),
+                  onPressed: () {
+                    setState(() {
+                      qty++;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 24),
+            ),
+            onPressed: () {},
+            child: Text(
+              "Add to cart - ${Currency(menu.price * qty)}",
+              style: const TextStyle(fontSize: 20),
+            ),
+          )
+        ],
       ),
     );
   }
