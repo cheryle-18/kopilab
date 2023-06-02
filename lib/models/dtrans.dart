@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Dtrans {
   late int orderId;
   late int menuId;
@@ -39,8 +41,8 @@ class Dtrans {
     qty = map['qty'];
     subtotal = map['subtotal'];
     status = map['status'];
-    createdAt = map['createdAt'];
-    updatedAt = map['updatedAt'];
+    createdAt = map['createdAt'].toString();
+    updatedAt = map['updatedAt'].toString();
   }
 
   factory Dtrans.fromJson(Map<String, dynamic> json) => Dtrans(

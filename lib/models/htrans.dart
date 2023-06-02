@@ -31,8 +31,8 @@ class Htrans {
     totalItem = map['totalItem'];
     totalPrice = map['totalPrice'];
     status = map['status'];
-    createdAt = map['createdAt'];
-    updatedAt = map['updatedAt'];
+    createdAt = map['createdAt'].toString();
+    updatedAt = map['updatedAt'].toString();
   }
 
   factory Htrans.fromJson(Map<String, dynamic> json) => Htrans(
