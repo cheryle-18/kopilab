@@ -56,13 +56,15 @@ class OrderList extends StatelessWidget {
         child: Center(
           child: Text(
             htrans["status"],
-            style: const TextStyle(color: Colors.brown, fontSize: 16),
+            style: const TextStyle(color: Colors.brown, fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
       ),
       onTap: () {
-        context.pushNamed('order_detail',
-            pathParameters: {'id': htrans['orderId'].toString()});
+        context.pushNamed(
+          'order_detail',
+          pathParameters: {'id': htrans['orderId'].toString()},
+        );
       },
     );
   }
