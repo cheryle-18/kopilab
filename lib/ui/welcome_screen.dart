@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kopilab/helpers/DatabaseHelper.dart';
+import 'package:kopilab/models/cart.dart';
+import 'package:kopilab/providers/cart.dart';
+import 'package:provider/provider.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
 
   @override
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+
+
+  @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+
     return Scaffold(
       backgroundColor: Colors.brown,
       body: DecoratedBox(
@@ -74,5 +87,20 @@ class WelcomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> setCarts(CartProvider cartProvider) async {
+    List<Cart> carts = await DatabaseHelper().findAll();
+    for (var cart in carts) {
+      cartProvider.setCart(cart);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      setCarts(Provider.of<CartProvider>(context, listen: false));
+    });
   }
 }
