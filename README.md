@@ -7,4 +7,3 @@ Proyek Multi-platform Mobile Programming
 - 220116890 - Mikhael Chris
 - 220116908 - Cherilyn Eugenia
 - 220116919 - Ignatius Odi
-- 
