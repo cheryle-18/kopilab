@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'firebase_options.dart';
 
+import 'providers/cart.dart';
 import 'providers/dtrans.dart';
 import 'providers/htrans.dart';
 import 'ui/welcome_screen.dart';
@@ -84,6 +85,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => CartProvider()),
         ChangeNotifierProvider(create: (context) => HtransProvider()),
         ChangeNotifierProvider(create: (context) => DtransProvider()),
       ],

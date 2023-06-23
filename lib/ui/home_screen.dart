@@ -1,7 +1,9 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/cart.dart';
 import '../widgets/menu_list.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -47,16 +49,20 @@ class HomeScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 48),
             child: IconButton(
-              icon: const badges.Badge(
-                badgeContent: Text(
-                  "0",
-                  style: TextStyle(color: Colors.brown),
+              icon: badges.Badge(
+                badgeContent: Consumer<CartProvider>(
+                  builder: (context, CartProvider cart, widget) {
+                    return Text(
+                      cart.count().toString(),
+                      style: const TextStyle(color: Colors.brown),
+                    );
+                  },
                 ),
-                badgeAnimation: badges.BadgeAnimation.fade(toAnimate: false),
-                badgeStyle: badges.BadgeStyle(
+                badgeAnimation: const badges.BadgeAnimation.fade(toAnimate: false),
+                badgeStyle: const badges.BadgeStyle(
                   badgeColor: Colors.white,
                 ),
-                child: Icon(Icons.shopping_cart),
+                child: const Icon(Icons.shopping_cart),
               ),
               onPressed: () {
                 context.pushNamed("cart");

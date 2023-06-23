@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Dtrans {
   late int orderId;
   late int menuId;

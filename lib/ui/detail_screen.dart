@@ -2,7 +2,10 @@ import 'package:badges/badges.dart' as badges;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/cart.dart';
+import '../models/cart.dart';
 import '../models/menu.dart';
 import '../utils/currency.dart';
 
@@ -33,22 +36,27 @@ class _DetailScreenState extends State<DetailScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 48),
             child: IconButton(
-              icon: const badges.Badge(
-                badgeContent: Text(
-                  "0",
-                  style: TextStyle(color: Colors.brown),
+              icon: badges.Badge(
+                badgeContent: Consumer<CartProvider>(
+                  builder: (context, CartProvider cart, widget) {
+                    return Text(
+                      cart.count().toString(),
+                      style: const TextStyle(color: Colors.brown),
+                    );
+                  },
                 ),
-                badgeAnimation: badges.BadgeAnimation.fade(toAnimate: false),
-                badgeStyle: badges.BadgeStyle(
+                badgeAnimation:
+                    const badges.BadgeAnimation.fade(toAnimate: false),
+                badgeStyle: const badges.BadgeStyle(
                   badgeColor: Colors.white,
                 ),
-                child: Icon(Icons.shopping_cart),
+                child: const Icon(Icons.shopping_cart),
               ),
               onPressed: () {
                 context.pushNamed("cart");
               },
             ),
-          )
+          ),
         ],
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
@@ -60,33 +68,37 @@ class _DetailScreenState extends State<DetailScreen> {
 
           Menu menu = Menu.fromMap(snapshot.data!.docs[0].data());
 
-          return Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              children: [
-                Image.asset(menu.imageUrl, height: 280),
-                const SizedBox(height: 60),
-                Text(
-                  menu.name,
-                  style: const TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
+          return SingleChildScrollView(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  children: [
+                    Image.asset(menu.imageUrl, height: 280),
+                    const SizedBox(height: 60),
+                    Text(
+                      menu.name,
+                      style: const TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Rp ${Currency(menu.price)}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      menu.description,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  'Rp ${Currency(menu.price)}',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  menu.description,
-                  textAlign: TextAlign.center,
-                ),
-              ],
+              ),
             ),
           );
         },
@@ -154,16 +166,21 @@ class _DetailScreenState extends State<DetailScreen> {
             ],
           ),
           const SizedBox(height: 16),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 24),
-            ),
-            onPressed: () {},
-            child: Text(
-              "Add to cart - ${Currency(menu.price * qty)}",
-              style: const TextStyle(fontSize: 20),
-            ),
-          )
+          Consumer<CartProvider>(builder: (context, CartProvider cart, widget) {
+            return ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 24),
+              ),
+              onPressed: () {
+                cart.add(Cart(
+                    menu.menuId, menu.name, menu.price, qty, menu.price * qty));
+              },
+              child: Text(
+                "Add to cart - ${Currency(menu.price * qty)}",
+                style: const TextStyle(fontSize: 20),
+              ),
+            );
+          }),
         ],
       ),
     );
