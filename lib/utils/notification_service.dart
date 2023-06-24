@@ -6,6 +6,8 @@ class NotificationService {
   NotificationService();
   static final _notifications = FlutterLocalNotificationsPlugin();
   static final onNotifications = BehaviorSubject<NotificationResponse?>();
+  final BehaviorSubject<String> behaviorSubject = BehaviorSubject();
+
   final id = 0;
 
   Future<void> setup() async {
@@ -32,7 +34,7 @@ class NotificationService {
     );
   }
 
-  static Future init({bool initScheduled = false}) async {
+  Future<void> init({bool initScheduled = false}) async {
     const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
     var settings = InitializationSettings(android: androidSettings);
 
@@ -44,11 +46,27 @@ class NotificationService {
     );
   }
 
-  static Future tampilNotifikasi({
+  void onDidReceiveLocalNotification(
+      int id, String? title, String? body, String? payload) {
+    print('id $id');
+  }
+
+  void selectNotification(String? payload) {
+    if (payload != null && payload.isNotEmpty) {
+      behaviorSubject.add(payload);
+    }
+  }
+
+  Future<void> showNotification({
     int id = 0,
     String? title,
     String? body,
     String? payload,
-  }) async =>
-      _notifications.show(id, title, body, await _notificationDetails(), payload: payload);
+  }) async => {
+    await _notifications.show(
+      id, title, body,
+      await _notificationDetails(),
+      payload: payload
+    )
+  };
 }

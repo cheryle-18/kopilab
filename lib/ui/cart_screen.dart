@@ -1,12 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kopilab/ui/home_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/cart.dart';
 import '../utils/currency.dart';
+import '../utils/notification_service.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
+
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  late final NotificationService notificationService;
+
+  @override
+  void initState() {
+    notificationService = NotificationService();
+    listenToNotificationStream();
+    notificationService.init();
+    super.initState();
+  }
+
+  void listenToNotificationStream() => {
+    notificationService.behaviorSubject.listen((payload) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen())
+      );
+    })
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +75,17 @@ class CartScreen extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 24),
             ),
-            onPressed: () {},
+            onPressed: () async {
+              //order
+
+              //show notif
+              //TODO: change payload to order
+              await notificationService.showNotification(
+                  id: 0,
+                  title: "Order placed",
+                  body: "Thank you for your order. Your order will be ready soon.",
+                  payload: "Order");
+            },
             child: const Text(
               "ORDER",
               style: TextStyle(fontSize: 20),
