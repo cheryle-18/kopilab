@@ -43,9 +43,17 @@ class _CartScreenState extends State<CartScreen> {
           itemBuilder: (BuildContext context, int index) {
             total += cart.cartList[index].subtotal;
             return ListTile(
+
               title: Text(cart.cartList[index].name),
-              subtitle: Text(
-                  '${cart.cartList[index].qty} x Rp ${cart.cartList[index].price}'),
+              // subtitle: Text(
+              //     '${cart.cartList[index].qty} x Rp ${cart.cartList[index].price}'),
+              subtitle: Row(
+                children: [
+                  IconButton(onPressed: (){}, icon: Icon(Icons.remove)),
+                  Text('${cart.cartList[index].qty}'),
+                  IconButton(onPressed: (){}, icon: Icon(Icons.add)),
+                ],
+              ),
               trailing: Text('Rp ${Currency(cart.cartList[index].subtotal)}'),
             );
           },
