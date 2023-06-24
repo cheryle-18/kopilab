@@ -2,6 +2,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kopilab/utils/notification_service.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/cart.dart';
@@ -20,6 +21,14 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   int qty = 1;
+  late final NotificationService notificationService;
+
+  @override
+  void initState() {
+    notificationService = NotificationService();
+    notificationService.init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -171,8 +180,16 @@ class _DetailScreenState extends State<DetailScreen> {
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 24),
               ),
-              onPressed: () {
+              onPressed: () async {
                 addCart(menu.menuId, menu.name, menu.price, qty, menu.price * qty, cart);
+
+                //show notif
+                await notificationService.showNotification(
+                    id: 0,
+                    title: "Order placed",
+                    body: "Thank you for your order. Your order will be ready soon.",
+                    payload: "Order"
+                );
               },
               child: Text(
                 "Add to cart - ${Currency(menu.price * qty)}",

@@ -69,12 +69,12 @@ class _CartScreenState extends State<CartScreen> {
               //order
 
               //show notif
-              //TODO: change payload to order
               await notificationService.showNotification(
                   id: 0,
                   title: "Order placed",
                   body: "Thank you for your order. Your order will be ready soon.",
-                  payload: "Order");
+                  payload: "Order"
+              );
             },
             child: const Text(
               "ORDER",
