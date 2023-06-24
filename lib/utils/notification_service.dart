@@ -21,15 +21,15 @@ class NotificationService {
     });
   }
 
-  static Future _notificationDetails() async {
+  Future<NotificationDetails> _notificationDetails() async {
     return const NotificationDetails(
       android: AndroidNotificationDetails(
         'OBA',
         'Demo Background Task',
         importance: Importance.max,
-        ticker: "OBA",
+        ticker: "ticker",
         styleInformation: DefaultStyleInformation(true, true),
-        playSound: true,
+        // playSound: true,
       ),
     );
   }
@@ -39,22 +39,8 @@ class NotificationService {
     var settings = InitializationSettings(android: androidSettings);
 
     await _notifications.initialize(
-      settings,
-      onDidReceiveNotificationResponse: (payload) async {
-        onNotifications.add(payload);
-      },
+      settings
     );
-  }
-
-  void onDidReceiveLocalNotification(
-      int id, String? title, String? body, String? payload) {
-    print('id $id');
-  }
-
-  void selectNotification(String? payload) {
-    if (payload != null && payload.isNotEmpty) {
-      behaviorSubject.add(payload);
-    }
   }
 
   Future<void> showNotification({

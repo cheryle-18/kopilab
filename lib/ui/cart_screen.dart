@@ -20,19 +20,9 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     notificationService = NotificationService();
-    listenToNotificationStream();
     notificationService.init();
     super.initState();
   }
-
-  void listenToNotificationStream() => {
-    notificationService.behaviorSubject.listen((payload) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen())
-      );
-    })
-  };
 
   @override
   Widget build(BuildContext context) {
