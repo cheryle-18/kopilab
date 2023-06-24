@@ -186,9 +186,9 @@ class _DetailScreenState extends State<DetailScreen> {
                 //show notif
                 await notificationService.showNotification(
                     id: 0,
-                    title: "Order placed",
-                    body: "Thank you for your order. Your order will be ready soon.",
-                    payload: "Order"
+                    title: "${menu.name} added to cart",
+                    body: "",
+                    payload: "Menu"
                 );
               },
               child: Text(
