@@ -16,6 +16,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   late final NotificationService notificationService;
+  int total = 0;
 
   @override
   void initState() {
@@ -32,7 +33,7 @@ class _CartScreenState extends State<CartScreen> {
             onTap: () {
               context.goNamed("home");
             },
-            child: const Text('kopilab.')),
+            child: const Text('Cart')),
         centerTitle: true,
       ),
       body:
@@ -40,6 +41,7 @@ class _CartScreenState extends State<CartScreen> {
         return ListView.builder(
           itemCount: cart.cartList.length,
           itemBuilder: (BuildContext context, int index) {
+            total += cart.cartList[index].subtotal;
             return ListTile(
               title: Text(cart.cartList[index].name),
               subtitle: Text(
@@ -61,9 +63,23 @@ class _CartScreenState extends State<CartScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const Divider(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Total: ',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                Text('Rp ${Currency(total)}',
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold)),
+              ],
+            ),
+          ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 24),
+              padding: const EdgeInsets.symmetric(vertical: 12),
             ),
             onPressed: () async {
               //order
@@ -72,13 +88,13 @@ class _CartScreenState extends State<CartScreen> {
               await notificationService.showNotification(
                   id: 0,
                   title: "Order placed",
-                  body: "Thank you for your order. Your order will be ready soon.",
-                  payload: "Order"
-              );
+                  body:
+                      "Thank you for your order. Your order will be ready soon.",
+                  payload: "Order");
             },
             child: const Text(
               "ORDER",
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
         ],
