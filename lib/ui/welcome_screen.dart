@@ -24,7 +24,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       body: DecoratedBox(
         decoration: const BoxDecoration(
             image: DecorationImage(
-          image: AssetImage("images/background/background.png"),
+          image: AssetImage("assets/images/background/background.png"),
           fit: BoxFit.cover,
         )),
         child: Center(
@@ -33,7 +33,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 IconButton(
-                  icon: Image.asset("images/logo/logo.png"),
+                  icon: Image.asset("assets/images/logo/logo.png"),
                   iconSize: 160,
                   onPressed: () {
                     context.pushNamed("login");
