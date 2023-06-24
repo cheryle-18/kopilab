@@ -149,7 +149,7 @@ class _DetailScreenState extends State<DetailScreen> {
               Text(
                 qty.toString(),
                 style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(width: 40),
               SizedBox(
@@ -172,8 +172,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 24),
               ),
               onPressed: () {
-                cart.add(Cart(
-                    menu.menuId, menu.name, menu.price, qty, menu.price * qty));
+                addCart(menu.menuId, menu.name, menu.price, qty, menu.price * qty, cart);
               },
               child: Text(
                 "Add to cart - ${Currency(menu.price * qty)}",
@@ -185,4 +184,16 @@ class _DetailScreenState extends State<DetailScreen> {
       ),
     );
   }
+  Future<void> addCart(int menuId, String name, int price, int qty, int subtotal, CartProvider cart) async {
+    var newCart = Cart(
+      menuId: menuId,
+      name: name,
+      price: price,
+      qty: qty,
+      subtotal: subtotal,
+    );
+    await cart.addCart(newCart);
+  }
 }
+
+
