@@ -101,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.fromLTRB(48, 60, 48, 24),
                     child: SizedBox(
                       width: 400,
-                      height: 56,
+                      height: 60,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.brown,

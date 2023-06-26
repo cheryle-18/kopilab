@@ -22,6 +22,7 @@ class MenuList extends StatelessWidget {
         }
 
         return GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: snapshot.data!.docs.length,
           shrinkWrap: true,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -45,12 +46,13 @@ class MenuList extends StatelessWidget {
       borderRadius: BorderRadius.circular(20),
       child: Column(
         children: [
-          Image.asset(
-            menu["imageUrl"],
-            fit: BoxFit.cover,
-            height: 200,
+          Expanded(
+            child: Image.asset(
+              menu["imageUrl"],
+              fit: BoxFit.cover,
+            ),
           ),
-          Text(menu["name"], style: const TextStyle(fontSize: 20)),
+          Text(menu["name"], style: const TextStyle(fontSize: 20), textAlign: TextAlign.center, overflow: TextOverflow.fade),
         ],
       ),
       onTap: () {
