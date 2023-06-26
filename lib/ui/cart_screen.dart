@@ -48,22 +48,23 @@ class _CartScreenState extends State<CartScreen> {
               child: ListTile(
                 title: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: Text(cart.cartList[index].name, style: const TextStyle(fontSize: 20)),
+                  child: Text(cart.cartList[index].name,
+                      style: const TextStyle(fontSize: 20)),
                 ),
                 subtitle: Row(
                   children: [
                     Ink(
                       decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: Colors.grey),
-                        borderRadius: const BorderRadius.all(Radius.circular(4))
-                      ),
+                          border: Border.all(width: 1, color: Colors.grey),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(4))),
                       child: InkWell(
                         onTap: () {
                           cart.removeQuantity(index);
                         },
                         child: const Padding(
-                          padding:  EdgeInsets.all(4.0),
-                          child:  Icon(Icons.remove),
+                          padding: EdgeInsets.all(4.0),
+                          child: Icon(Icons.remove),
                         ),
                       ),
                     ),
@@ -76,21 +77,22 @@ class _CartScreenState extends State<CartScreen> {
                     Ink(
                       decoration: BoxDecoration(
                           border: Border.all(width: 1, color: Colors.grey),
-                          borderRadius: const BorderRadius.all(Radius.circular(4))
-                      ),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(4))),
                       child: InkWell(
                         onTap: () {
                           cart.addQuantity(index);
                         },
                         child: const Padding(
-                          padding:  EdgeInsets.all(4.0),
-                          child:  Icon(Icons.add),
+                          padding: EdgeInsets.all(4.0),
+                          child: Icon(Icons.add),
                         ),
                       ),
                     ),
                   ],
                 ),
-                trailing: Text('Rp ${Currency(cart.cartList[index].subtotal)}', style: const TextStyle(fontSize: 16)),
+                trailing: Text('Rp ${Currency(cart.cartList[index].subtotal)}',
+                    style: const TextStyle(fontSize: 16)),
               ),
             );
           },
@@ -116,9 +118,13 @@ class _CartScreenState extends State<CartScreen> {
                 const Text('Total: ',
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                Text('Rp ${Currency(total)}',
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold)),
+                Consumer<CartProvider>(builder:
+                    (BuildContext context, CartProvider cart, Widget? child) {
+                  total = cart.getTotal();
+                  return Text('Rp ${Currency(total)}',
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold));
+                }),
               ],
             ),
           ),

@@ -51,4 +51,12 @@ class CartProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  int getTotal(){
+    int total = 0;
+    for (var element in _cartList) {
+      total += element.subtotal;
+    }
+    return total;
+  }
 }
