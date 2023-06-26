@@ -43,7 +43,12 @@ class CartProvider extends ChangeNotifier {
 
   void removeQuantity(int index){
     _cartList[index].qty--;
+    if(_cartList[index].qty == 0){
+      _cartList.removeAt(index);
+    }
+    else{
     _cartList[index].subtotal = _cartList[index].price * _cartList[index].qty;
+    }
     notifyListeners();
   }
 }
