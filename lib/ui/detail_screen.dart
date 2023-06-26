@@ -43,7 +43,7 @@ class _DetailScreenState extends State<DetailScreen> {
         centerTitle: true,
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 48),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: IconButton(
               icon: badges.Badge(
                 badgeContent: Consumer<CartProvider>(

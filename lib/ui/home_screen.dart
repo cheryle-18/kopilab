@@ -11,28 +11,30 @@ class HomeScreen extends StatelessWidget {
 
   final item = const <Widget>[
     Text(
-      "COFFEE",
-      textAlign: TextAlign.center,
+      "Coffee",
+      textAlign: TextAlign.left,
       style: TextStyle(
-        fontSize: 40,
+        fontSize: 32,
         fontWeight: FontWeight.bold,
       ),
     ),
     MenuList(query: 'Coffee'),
+    SizedBox(height: 16),
     Text(
-      "NON - COFFEE",
-      textAlign: TextAlign.center,
+      "Non-Coffee",
+      textAlign: TextAlign.left,
       style: TextStyle(
-        fontSize: 40,
+        fontSize: 32,
         fontWeight: FontWeight.bold,
       ),
     ),
     MenuList(query: 'Non-Coffee'),
+    SizedBox(height: 16),
     Text(
-      "FOOD",
-      textAlign: TextAlign.center,
+      "Food",
+      textAlign: TextAlign.left,
       style: TextStyle(
-        fontSize: 40,
+        fontSize: 32,
         fontWeight: FontWeight.bold,
       ),
     ),
@@ -47,7 +49,7 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 48),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: IconButton(
               icon: badges.Badge(
                 badgeContent: Consumer<CartProvider>(
