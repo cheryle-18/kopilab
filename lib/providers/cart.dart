@@ -34,4 +34,14 @@ class CartProvider extends ChangeNotifier {
   int count() {
     return _cartList.length;
   }
+
+  void addQuantity(int index){
+    _cartList[index].qty++;
+    notifyListeners();
+  }
+
+  void removeQuantity(int index){
+    _cartList[index].qty--;
+    notifyListeners();
+  }
 }
