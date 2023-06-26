@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kopilab/ui/home_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/cart.dart';
@@ -38,23 +37,61 @@ class _CartScreenState extends State<CartScreen> {
       ),
       body:
           Consumer<CartProvider>(builder: (context, CartProvider cart, widget) {
-        return ListView.builder(
+        return ListView.separated(
           itemCount: cart.cartList.length,
+          separatorBuilder: (BuildContext context, int index) =>
+              const Divider(),
           itemBuilder: (BuildContext context, int index) {
-            total += cart.cartList[index].subtotal;
-            return ListTile(
-
-              title: Text(cart.cartList[index].name),
-              // subtitle: Text(
-              //     '${cart.cartList[index].qty} x Rp ${cart.cartList[index].price}'),
-              subtitle: Row(
-                children: [
-                  IconButton(onPressed: (){}, icon: Icon(Icons.remove)),
-                  Text('${cart.cartList[index].qty}'),
-                  IconButton(onPressed: (){}, icon: Icon(Icons.add)),
-                ],
+            return Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
+              child: ListTile(
+                title: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: Text(cart.cartList[index].name, style: const TextStyle(fontSize: 20)),
+                ),
+                subtitle: Row(
+                  children: [
+                    Ink(
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.grey),
+                        borderRadius: const BorderRadius.all(Radius.circular(4))
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          cart.removeQuantity(index);
+                        },
+                        child: const Padding(
+                          padding:  EdgeInsets.all(4.0),
+                          child:  Icon(Icons.remove),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text('${cart.cartList[index].qty}',
+                          style: const TextStyle(
+                              fontSize: 16, color: Colors.black)),
+                    ),
+                    Ink(
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: Colors.grey),
+                          borderRadius: const BorderRadius.all(Radius.circular(4))
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          cart.addQuantity(index);
+                        },
+                        child: const Padding(
+                          padding:  EdgeInsets.all(4.0),
+                          child:  Icon(Icons.add),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                trailing: Text('Rp ${Currency(cart.cartList[index].subtotal)}', style: const TextStyle(fontSize: 16)),
               ),
-              trailing: Text('Rp ${Currency(cart.cartList[index].subtotal)}'),
             );
           },
         );
