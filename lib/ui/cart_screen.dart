@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -14,8 +15,10 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  final _firestore = FirebaseFirestore.instance;
   late final NotificationService notificationService;
   int total = 0;
+  int itemCount = 0;
 
   @override
   void initState() {
@@ -121,6 +124,7 @@ class _CartScreenState extends State<CartScreen> {
                 Consumer<CartProvider>(builder:
                     (BuildContext context, CartProvider cart, Widget? child) {
                   total = cart.getTotal();
+                  itemCount = cart.count();
                   return Text('Rp ${Currency(total)}',
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.bold));
@@ -133,7 +137,34 @@ class _CartScreenState extends State<CartScreen> {
               padding: const EdgeInsets.symmetric(vertical: 12),
             ),
             onPressed: () async {
-              //order
+              //Create HTrans Object
+              DocumentReference htrans = await _firestore.collection('htrans').add({
+                'totalItem': itemCount,
+                'totalPrice': total,
+                'status': 'Pending',
+                'createdAt': DateTime.now(),
+                'updatedAt': DateTime.now(),
+              });
+
+              htrans.update({'orderId': htrans.id});
+
+              //Create DTrans Object
+              var dtrans = _firestore.collection('dtrans');
+              var cart = context.read<CartProvider>();
+              for (var element in cart.cartList) {
+                dtrans.add({
+                  'orderId': htrans.id,
+                  'menuId': element.menuId,
+                  'price': element.price,
+                  'qty': element.qty,
+                  'status': 'Pending',
+                  'subtotal': element.subtotal,
+                  'createdAt': DateTime.now(),
+                  'updatedAt': DateTime.now(),
+                });
+              }
+
+              //Clear cart
 
               //show notif
               await notificationService.showNotification(
