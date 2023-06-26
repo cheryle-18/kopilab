@@ -37,11 +37,13 @@ class CartProvider extends ChangeNotifier {
 
   void addQuantity(int index){
     _cartList[index].qty++;
+    _cartList[index].subtotal = _cartList[index].price * _cartList[index].qty;
     notifyListeners();
   }
 
   void removeQuantity(int index){
     _cartList[index].qty--;
+    _cartList[index].subtotal = _cartList[index].price * _cartList[index].qty;
     notifyListeners();
   }
 }
