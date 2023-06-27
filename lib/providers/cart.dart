@@ -34,4 +34,38 @@ class CartProvider extends ChangeNotifier {
   int count() {
     return _cartList.length;
   }
+
+  void addQuantity(int index){
+    _cartList[index].qty++;
+    _cartList[index].subtotal = _cartList[index].price * _cartList[index].qty;
+    notifyListeners();
+  }
+
+  Future<void> removeQuantity(int index) async {
+    _cartList[index].qty--;
+    if(_cartList[index].qty == 0){
+      _cartList.removeAt(index);
+      await DatabaseHelper().removeAt(_cartList[index].menuId);
+    }
+    else{
+      _cartList[index].subtotal = _cartList[index].price * _cartList[index].qty;
+      await DatabaseHelper().update(_cartList[index].menuId, _cartList[index].price, _cartList[index].qty);
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> clearCart() async {
+    _cartList.clear();
+    await DatabaseHelper().clear();
+    notifyListeners();
+  }
+
+  int getTotal(){
+    int total = 0;
+    for (var element in _cartList) {
+      total += element.subtotal;
+    }
+    return total;
+  }
 }

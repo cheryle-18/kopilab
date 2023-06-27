@@ -1,6 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kopilab/ui/home_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/cart.dart';
@@ -15,8 +15,10 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  final _firestore = FirebaseFirestore.instance;
   late final NotificationService notificationService;
   int total = 0;
+  int itemCount = 0;
 
   @override
   void initState() {
@@ -38,15 +40,63 @@ class _CartScreenState extends State<CartScreen> {
       ),
       body:
           Consumer<CartProvider>(builder: (context, CartProvider cart, widget) {
-        return ListView.builder(
+        return ListView.separated(
           itemCount: cart.cartList.length,
+          separatorBuilder: (BuildContext context, int index) =>
+              const Divider(),
           itemBuilder: (BuildContext context, int index) {
-            total += cart.cartList[index].subtotal;
-            return ListTile(
-              title: Text(cart.cartList[index].name),
-              subtitle: Text(
-                  '${cart.cartList[index].qty} x Rp ${cart.cartList[index].price}'),
-              trailing: Text('Rp ${Currency(cart.cartList[index].subtotal)}'),
+            return Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
+              child: ListTile(
+                title: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: Text(cart.cartList[index].name,
+                      style: const TextStyle(fontSize: 20)),
+                ),
+                subtitle: Row(
+                  children: [
+                    Ink(
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: Colors.grey),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(4))),
+                      child: InkWell(
+                        onTap: () {
+                          cart.removeQuantity(index);
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(4.0),
+                          child: Icon(Icons.remove),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text('${cart.cartList[index].qty}',
+                          style: const TextStyle(
+                              fontSize: 16, color: Colors.black)),
+                    ),
+                    Ink(
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: Colors.grey),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(4))),
+                      child: InkWell(
+                        onTap: () {
+                          cart.addQuantity(index);
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(4.0),
+                          child: Icon(Icons.add),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                trailing: Text('Rp ${Currency(cart.cartList[index].subtotal)}',
+                    style: const TextStyle(fontSize: 16)),
+              ),
             );
           },
         );
@@ -71,9 +121,14 @@ class _CartScreenState extends State<CartScreen> {
                 const Text('Total: ',
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                Text('Rp ${Currency(total)}',
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold)),
+                Consumer<CartProvider>(builder:
+                    (BuildContext context, CartProvider cart, Widget? child) {
+                  total = cart.getTotal();
+                  itemCount = cart.count();
+                  return Text('Rp ${Currency(total)}',
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold));
+                }),
               ],
             ),
           ),
@@ -82,15 +137,46 @@ class _CartScreenState extends State<CartScreen> {
               padding: const EdgeInsets.symmetric(vertical: 12),
             ),
             onPressed: () async {
-              //order
+              //Create HTrans Object
+              DocumentReference htrans = await _firestore.collection('htrans').add({
+                'totalItem': itemCount,
+                'totalPrice': total,
+                'status': 'Pending',
+                'createdAt': DateTime.now(),
+                'updatedAt': DateTime.now(),
+              });
+
+              htrans.update({'orderId': htrans.id});
+
+              //Create DTrans Object
+              var dtrans = _firestore.collection('dtrans');
+              var cart = context.read<CartProvider>();
+              for (var element in cart.cartList) {
+                dtrans.add({
+                  'orderId': htrans.id,
+                  'menuId': element.menuId,
+                  'price': element.price,
+                  'qty': element.qty,
+                  'status': 'Pending',
+                  'subtotal': element.subtotal,
+                  'createdAt': DateTime.now(),
+                  'updatedAt': DateTime.now(),
+                });
+              }
+
+              //Clear cart
+              await cart.clearCart();
 
               //show notif
               await notificationService.showNotification(
                   id: 0,
                   title: "Order placed",
                   body:
-                      "Thank you for your order. Your order will be ready soon.",
+                      "Thank you for ordering. Your order will be ready soon.",
                   payload: "Order");
+
+              //return to home
+              Navigator.pop(context);
             },
             child: const Text(
               "ORDER",
