@@ -165,14 +165,18 @@ class _CartScreenState extends State<CartScreen> {
               }
 
               //Clear cart
+              await cart.clearCart();
 
               //show notif
               await notificationService.showNotification(
                   id: 0,
                   title: "Order placed",
                   body:
-                      "Thank you for your order. Your order will be ready soon.",
+                      "Thank you for ordering. Your order will be ready soon.",
                   payload: "Order");
+
+              //return to home
+              Navigator.pop(context);
             },
             child: const Text(
               "ORDER",

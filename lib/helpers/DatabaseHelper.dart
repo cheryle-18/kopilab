@@ -40,6 +40,16 @@ class DatabaseHelper {
     ''');
   }
 
+  Future<void> removeAt(int menuId) async {
+    final Database db = await database;
+    await db.execute('DELETE FROM carts WHERE menuId = $menuId');
+  }
+
+  Future<void> clear() async {
+    final Database db = await database;
+    await db.execute('DELETE FROM carts');
+  }
+
   Future<List<Cart>> findAll() async {
     final Database db = await database;
     final List<Map<String, dynamic>> maps = await db.query('carts');
