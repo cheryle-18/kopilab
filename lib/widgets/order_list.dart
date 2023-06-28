@@ -12,7 +12,7 @@ class OrderList extends StatelessWidget {
     final htransQuery = FirebaseFirestore.instance
         .collection('htrans')
         .where('status', isEqualTo: query)
-        .orderBy('orderId')
+        .orderBy('createdAt', descending: true)
         .snapshots();
 
     return Scaffold(
