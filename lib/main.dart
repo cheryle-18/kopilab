@@ -91,6 +91,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => DtransProvider()),
       ],
       child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
         title: 'kopilab',
         theme: ThemeData(
           primarySwatch: Colors.brown,
