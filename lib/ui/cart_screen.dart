@@ -137,6 +137,15 @@ class _CartScreenState extends State<CartScreen> {
               padding: const EdgeInsets.symmetric(vertical: 12),
             ),
             onPressed: () async {
+              if(itemCount == 0) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Cart is empty'),
+                  ),
+                );
+                return;
+              }
+
               //Create HTrans Object
               DocumentReference htrans = await _firestore.collection('htrans').add({
                 'totalItem': itemCount,
