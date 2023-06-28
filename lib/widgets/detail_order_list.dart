@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../utils/currency.dart';
 
 class DetailOrderList extends StatelessWidget {
-  final int id;
+  final String id;
   final String status;
 
   const DetailOrderList({Key? key, required this.id, required this.status})
@@ -65,12 +65,12 @@ class DetailOrderList extends StatelessWidget {
   Widget buildItem(BuildContext context, String docId,
       Map<String, dynamic> dtrans, Map<String, dynamic> menu) {
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
       leading: Image.asset(menu["imageUrl"]),
       title: Text(
         '${menu["name"]}',
         style: const TextStyle(
-          fontSize: 28,
+          fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
       ),

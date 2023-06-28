@@ -14,12 +14,12 @@ class OrderDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final htransQuery = FirebaseFirestore.instance
         .collection('htrans')
-        .where('orderId', isEqualTo: int.parse(id))
+        .where('orderId', isEqualTo: id)
         .snapshots();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Order $id'),
+        title: Text('Order ${id.toString().substring(0,8)}'),
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
@@ -31,7 +31,7 @@ class OrderDetailScreen extends StatelessWidget {
 
           final status = snapshot.data!.docs[0].data()['status'];
           return DetailOrderList(
-            id: int.parse(id),
+            id: id,
             status: status,
           );
         },

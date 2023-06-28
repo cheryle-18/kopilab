@@ -41,8 +41,9 @@ class OrderList extends StatelessWidget {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       title: Text(
-        "Order ${htrans['orderId']}",
-        style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
+        "Order ${htrans['orderId'].toString().substring(0,8)}",
+          // "Order ${DateFormat("hh:mm (dd MMM yyyy)").format(DateTime.fromMillisecondsSinceEpoch(htrans['createdAt'].seconds * 1000))}",
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
       ),
       subtitle: Text(
           '${htrans["totalItem"]} ${htrans["totalItem"] == 1 ? "Item" : "Items"}'),
