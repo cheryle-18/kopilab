@@ -178,7 +178,7 @@ class _DetailScreenState extends State<DetailScreen> {
           Consumer<CartProvider>(builder: (context, CartProvider cart, widget) {
             return ElevatedButton(
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 24),
+                padding: const EdgeInsets.symmetric(vertical: 16),
               ),
               onPressed: () async {
                 addCart(menu.menuId, menu.name, menu.price, qty, menu.price * qty, cart);

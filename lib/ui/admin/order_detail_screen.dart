@@ -61,7 +61,7 @@ class OrderDetailScreen extends StatelessWidget {
           const Divider(),
           Text(
             "Total Price: Rp ${Currency(htrans['totalPrice'])}",
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             textAlign: TextAlign.start,
           ),
           if (htrans['status'] == 'Pending') ...[
