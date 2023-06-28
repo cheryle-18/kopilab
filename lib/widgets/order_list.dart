@@ -42,7 +42,6 @@ class OrderList extends StatelessWidget {
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       title: Text(
         "Order ${htrans['orderId'].toString().substring(0,8)}",
-          // "Order ${DateFormat("hh:mm (dd MMM yyyy)").format(DateTime.fromMillisecondsSinceEpoch(htrans['createdAt'].seconds * 1000))}",
         style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
       ),
       subtitle: Text(
