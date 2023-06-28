@@ -68,12 +68,12 @@ class OrderDetailScreen extends StatelessWidget {
             const SizedBox(height: 16),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 24),
+                padding: const EdgeInsets.symmetric(vertical: 12),
               ),
               onPressed: () {
                 FirebaseFirestore.instance
                     .collection('dtrans')
-                    .where('orderId', isEqualTo: int.parse(id))
+                    .where('orderId', isEqualTo: id)
                     .where('status', isEqualTo: 'Pending')
                     .count()
                     .get()
