@@ -35,9 +35,11 @@ class CartProvider extends ChangeNotifier {
     return _cartList.length;
   }
 
-  void addQuantity(int index){
+  void addQuantity(int index) async {
     _cartList[index].qty++;
     _cartList[index].subtotal = _cartList[index].price * _cartList[index].qty;
+    await DatabaseHelper().update(_cartList[index].menuId, _cartList[index].price, _cartList[index].qty);
+
     notifyListeners();
   }
 
